@@ -8,7 +8,7 @@ X = covertype.data.features
 X2 = X.copy()
 y = covertype.data.targets 
   
-
+print(X.head())
 
 
 import pandas as pd
@@ -29,4 +29,4 @@ fig = px.scatter_3d(X2,
                     z='Slope',
                     color='cluster')
 
-fig.show(renderer='browser')
+fig.show(renderer='browser')'
