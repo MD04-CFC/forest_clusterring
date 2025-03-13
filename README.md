@@ -13,7 +13,7 @@ pip install sklearn.cluster
 
 
 
-2) Original data, webpage and description:  https://archive.ics.uci.edu/dataset/31/covertype 
+2) Original data, webpage and description:   https://archive.ics.uci.edu/dataset/31/covertype
 
 
 
@@ -42,8 +42,7 @@ Purpose: Discover natural clusters that align with forest cover types, potential
 
 
 4) File descriptions - 
-3D looks a bit incorrect, 2D old is for sure incorrect
-2D in second.py is ok, 3D_new.py as well
+3D from main looks a bit incorrect, new better version is in 3d_new
 
 5) Rzeczy do zrobienia
 

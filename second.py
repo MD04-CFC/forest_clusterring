@@ -1,4 +1,4 @@
-# 2D 
+# 2D ok, correct clusters, a bit of AI help
 
 
 from ucimlrepo import fetch_ucirepo 

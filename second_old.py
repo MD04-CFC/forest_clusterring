@@ -1,28 +1,31 @@
-# 2D before AI --  -- something is wrong, clusters are really odd and probably not correct
+# 2D before AI , it's ok
 
 
 from ucimlrepo import fetch_ucirepo 
 from sklearn.cluster import KMeans
 import plotly.express as px
+from sklearn.preprocessing import StandardScaler
   
 # fetch dataset 
 covertype = fetch_ucirepo(id=31) 
   
 # data (as pandas dataframes) 
-X2 = covertype.data.features 
 y = covertype.data.targets 
-X = X2.sample(n=300, random_state=42).copy()   # the same random method
+X = covertype.data.features[['Elevation','Slope']]
+X_sampled = X.sample(n=300, random_state=42).copy()
 
 
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_sampled)
 
 km = KMeans(n_clusters = 10, random_state=42)
 
-X['cluster'] = km.fit_predict(X) 
-X['cluster'] = X['cluster'].astype('category')
+X_sampled['cluster'] = km.fit_predict(X_scaled) 
+X_sampled['cluster'] = X_sampled['cluster'].astype('category')
 
 
 
-fig = px.scatter(X,
+fig = px.scatter(X_sampled,
                     x='Elevation',
                     y='Slope',
                     color='cluster')

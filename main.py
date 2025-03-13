@@ -16,7 +16,6 @@ X2 = X.sample(n=300, random_state=42).copy()
 y = covertype.data.targets 
   
 
-
 km = KMeans(n_clusters = 10, random_state=42)
 
 X2['cluster'] = km.fit_predict(X2) 
