@@ -1,14 +1,25 @@
 # forest_clusterring
- project1 - MAD 202 SGGW
+ project1 - MAD 2025 SGGW Computer Science: Maciej Dąbrowski, Jakub Dąbrowski, Lizaveta Brazynskaia, Oleksandr Babenkov
 
 
+1) Commends to run in terminal before running the code:
 
 pip install ucimlrepo
+pip install pandas
+pip install numpy
+pip install matplotlib
+pip install plotly.express
+pip install sklearn.cluster
 
-https://archive.ics.uci.edu/dataset/31/covertype 
 
 
-Topographical Clustering
+2) Original data, webpage and description:  https://archive.ics.uci.edu/dataset/31/covertype 
+
+
+
+3) Topics:
+
+1 Topographical Clustering
 Use features: Elevation, Slope, Aspect, Horizontal_Distance_To_Hydrology, Vertical_Distance_To_Hydrology
 Purpose: Identify clusters based on the physical landscape, grouping regions with similar terrain characteristics.
 
@@ -29,11 +40,18 @@ Use all features (except Cover_Type, since it's the label)
 Purpose: Discover natural clusters that align with forest cover types, potentially validating or finding anomalies.
 
 
+
+4) File descriptions - 
+3D looks a bit incorrect, 2D old is for sure incorrect
+2D in second.py is ok, 3D_new.py as well
+
+5) Rzeczy do zrobienia
+
 + zrobić excel z danych ( plikow jest duzo, chodzi by zespolic w jeden, mozna pobrac ze strony)
 + wybrac temat z 5 
 + boxpoloty 5-10 zmiennych
 + klasyfikacja zmiennych
-+ 2-3 metody klastrów
++ 2-3 metody klastrów (1 jest już)
 + klasyfikacja z klastrow wzgledem faktow ?
-+ do 8 kwietnia
++ deadline 8/15 kwietnia
 

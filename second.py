@@ -1,4 +1,4 @@
-# 2D
+# 2D 
 
 
 from ucimlrepo import fetch_ucirepo 
@@ -43,15 +43,13 @@ for i in range(n_clusters):
     colors[i] = random.choice(colors_all)  
 
 
+plt.figure(figsize=(12,12)) # def 8,6 inches
 
-
-plt.figure(figsize=(12,12))                      # def 8,6
-
-for k, col in zip(range(n_clusters), colors):
-    my_members = k_means_labels == k
+for k, col in zip(range(n_clusters), colors):   
+    my_members = k_means_labels == k                                                                                        # k_means_labels == k: Creates a Boolean mask (True for points belonging to cluster k, False otherwise).
     cluster_center = k_means_cluster_centers[k]
-    plt.scatter(X[my_members, 0], X[my_members, 1], color=col, label=f'Cluster {k}', alpha=0.6, edgecolors='k')             # elevation ,slope, color, legend, alpha=0.6: Makes points slightly transparent.    edgecolors='k': Draws a black outline around points.
-    plt.scatter(cluster_center[0], cluster_center[1], color=col, edgecolors='k', marker='o', s=200, label=f'Center {k}')    # s = 130?
+    plt.scatter(X[my_members, 0], X[my_members, 1], color=col, label=f'Cluster {k}', alpha=0.6, edgecolors='k')             # elevation , slope, color, legend = clusters with color description, alpha=0.6: Makes points slightly transparent, edgecolors='k': Draws a black outline around points.
+    plt.scatter(cluster_center[0], cluster_center[1], color=col, edgecolors='k', marker='o', s=200, label=f'Center {k}')    # s = 130? (marker size)
 
 plt.title('KMeans Clustering on Elevation & Slope')
 plt.xlabel('Elevation')

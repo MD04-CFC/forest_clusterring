@@ -1,11 +1,11 @@
-# 3D
+# 3D old - might be wrong a bit, clusters look odd
 
 from ucimlrepo import fetch_ucirepo 
 import pandas as pd
 from sklearn.cluster import KMeans
 import plotly.express as px
 import matplotlib.pyplot as plt
-import numpy as np
+
   
 # fetch dataset 
 covertype = fetch_ucirepo(id=31) 
