@@ -14,15 +14,13 @@ covertype = fetch_ucirepo(id=31)
 # data (as pandas dataframes) 
 X2 = covertype.data.features 
 y = covertype.data.targets 
-
-
-X = X2[['Elevation', 'Slope']].copy()
+X = X2[['Elevation', 'Slope']].copy()   # copy, don't change original data
 X = X.sample(n=300, random_state=42)    # the same random method
 X = X.values                            # convert to numpy array
 
 
 n_clusters = 12
-k_means = KMeans(init='k-means++', n_clusters=n_clusters, n_init=25, random_state=42)        #10 
+k_means = KMeans(init='k-means++', n_clusters=n_clusters, n_init=25, random_state=42)        #def 10 
 k_means.fit(X)
 k_means_labels = k_means.labels_
 k_means_cluster_centers = k_means.cluster_centers_
@@ -47,13 +45,13 @@ for i in range(n_clusters):
 
 
 
-plt.figure(figsize=(12,12))                      # 8,6
+plt.figure(figsize=(12,12))                      # def 8,6
 
 for k, col in zip(range(n_clusters), colors):
     my_members = k_means_labels == k
     cluster_center = k_means_cluster_centers[k]
-    plt.scatter(X[my_members, 0], X[my_members, 1], color=col, label=f'Cluster {k}', alpha=0.6, edgecolors='k')
-    plt.scatter(cluster_center[0], cluster_center[1], color=col, edgecolors='k', marker='o', s=200, label=f'Center {k}')
+    plt.scatter(X[my_members, 0], X[my_members, 1], color=col, label=f'Cluster {k}', alpha=0.6, edgecolors='k')             # elevation ,slope, color, legend, alpha=0.6: Makes points slightly transparent.    edgecolors='k': Draws a black outline around points.
+    plt.scatter(cluster_center[0], cluster_center[1], color=col, edgecolors='k', marker='o', s=200, label=f'Center {k}')    # s = 130?
 
 plt.title('KMeans Clustering on Elevation & Slope')
 plt.xlabel('Elevation')
