@@ -29,4 +29,7 @@ fig = px.scatter_3d(X2,
                     z='Slope',
                     color='cluster')
 
-fig.show(renderer='browser')'
+fig.show(renderer='browser')
+
+
+
