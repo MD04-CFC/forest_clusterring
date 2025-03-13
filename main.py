@@ -1,9 +1,11 @@
-from ucimlrepo import fetch_ucirepo 
+# 3D
 
+from ucimlrepo import fetch_ucirepo 
 import pandas as pd
 from sklearn.cluster import KMeans
 import plotly.express as px
-import matplotlib as plt
+import matplotlib.pyplot as plt
+import numpy as np
   
 # fetch dataset 
 covertype = fetch_ucirepo(id=31) 
@@ -13,6 +15,7 @@ X = covertype.data.features
 X2 = X.sample(n=300, random_state=42).copy()
 y = covertype.data.targets 
   
+
 
 km = KMeans(n_clusters = 10, random_state=42)
 
@@ -28,6 +31,11 @@ fig = px.scatter_3d(X2,
                     color='cluster')
 
 fig.show(renderer='browser')
+
+
+
+
+
 
 
 
