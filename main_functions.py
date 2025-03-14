@@ -108,3 +108,28 @@ def najlepsze(n):
         
     return najlepsza_komb
 
+
+
+def wykres(a, b, n):
+    covertype = fetch_ucirepo(id=31) 
+    y = covertype.data.targets 
+    X = covertype.data.features[[a,b]]
+    X_sampled = X.sample(n=n, random_state=42).copy()
+
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_sampled)
+
+    km = KMeans(n_clusters = 7, random_state=42)
+
+    X_sampled['cluster'] = km.fit_predict(X_scaled) 
+    X_sampled['cluster'] = X_sampled['cluster'].astype('category')
+
+
+
+    fig = px.scatter(X_sampled,
+                        x=a,
+                        y=b,
+                        color='cluster')
+
+    fig.show(renderer='browser')
