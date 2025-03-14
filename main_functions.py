@@ -24,7 +24,7 @@ def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
         elif opcja == 3:
             centers.append(opcja_3(tablica_jednego_typu, a, b))
         
-    km = KMeans(n_clusters=7, init=centers, max_iter=20)
+    km = KMeans(n_clusters=7, init=centers, max_iter=1)
 
     covertype = fetch_ucirepo(id=31) 
     y = covertype.data.targets 
@@ -69,7 +69,7 @@ def percent_classification(zmienna1, zmienna2, opcja, n):
         elif opcja == 3:
             centers.append(opcja_3(tablica_jednego_typu, a, b))
         
-    km = KMeans(n_clusters=7, init=centers, max_iter=20)
+    km = KMeans(n_clusters=7, init=centers, max_iter=1)
 
     
     X_sampled['cluster'] = km.fit_predict(X_scaled) 
