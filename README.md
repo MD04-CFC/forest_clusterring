@@ -15,9 +15,11 @@ pip install sklearn.cluster
 
 2) Original data, webpage and description:   https://archive.ics.uci.edu/dataset/31/covertype
 
+3) CoverType = zmienna wynikowa
+- sprawdzić czy na pewno jest y i nie ma jej Y
 
 
-3) Topics:
+4) Topics:
 
 1 Topographical Clustering
 Use features: Elevation, Slope, Aspect, Horizontal_Distance_To_Hydrology, Vertical_Distance_To_Hydrology
@@ -41,8 +43,7 @@ Purpose: Discover natural clusters that align with forest cover types, potential
 
 
 
-4) File descriptions - 
-3D from main looks a bit incorrect, new better version is in 3d_new
+
 
 5) Rzeczy do zrobienia
 
