@@ -38,8 +38,9 @@ def opcja_2(tablica_jednego_typu, a,b):                                         
 
 import random
 def opcja_3(tablica_jednego_typu,a,b):          #_srodki_losowe
-    x = random.choice(tablica_jednego_typu)  
-    return [ x[a], x[b] ]    
+    x = tablica_jednego_typu.sample(n=1).iloc[0]  
+
+    return [x.iloc[0], x.iloc[1]]  
                                                
                      
 

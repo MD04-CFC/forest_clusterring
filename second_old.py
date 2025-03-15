@@ -14,11 +14,12 @@ y = covertype.data.targets
 X = covertype.data.features[['Elevation','Slope']]
 X_sampled = X.sample(n=300, random_state=42).copy()
 
+#print(y.head())
 
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_sampled)
 
-km = KMeans(n_clusters = 10, random_state=42)
+km = KMeans(n_clusters = 7, random_state=42)
 
 X_sampled['cluster'] = km.fit_predict(X_scaled) 
 X_sampled['cluster'] = X_sampled['cluster'].astype('category')
@@ -28,6 +29,7 @@ X_sampled['cluster'] = X_sampled['cluster'].astype('category')
 fig = px.scatter(X_sampled,
                     x='Elevation',
                     y='Slope',
-                    color='cluster')
+                    color='cluster',
+                    title='Clusters from KMeans')
 
-fig.show(renderer='browser')
+fig.show()
