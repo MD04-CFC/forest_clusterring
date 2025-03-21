@@ -9,9 +9,13 @@ from sklearn.preprocessing import StandardScaler
 from funkcje import *
 from main_functions import *
 
-'''
+
+# each time we run the script, we fetch repo, so maybe it's faster to save it in a file and use that way
+
 centers = []
-covertype = fetch_ucirepo(id=31) 
+
+covertype = fetch_ucirepo(id=31)
+
 y = covertype.data.targets 
 a = 'Elevation'
 b = 'Aspect'
@@ -23,8 +27,11 @@ X_scaled = scaler.fit_transform(X_sampled)
 y['Cover_Type'] = y['Cover_Type'].astype('category')
 X_sampled['Cover_Type'] = y['Cover_Type']
 
-print(X_sampled['Cover_Type'])'
-'''''
+print(X_sampled['Cover_Type'])
+
+
+
+
 
 print(percent_classification('Elevation', 'Slope', 3, 1000))
 print('\n')
@@ -33,6 +40,7 @@ print(percent_classification('Elevation', 'Slope', 3, 1000))
 print('\n')
 
 print(percent_classification('Elevation', 'Slope', 3, 1000))
+
 print('\n')
 
 print(percent_classification('Elevation', 'Slope', 3, 1000))
