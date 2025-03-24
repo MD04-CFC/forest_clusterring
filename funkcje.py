@@ -19,7 +19,7 @@ def srednia(tablica):
     return sum(tablica)/len(tablica)
 
 def opcja_1(tablica_jednego_typu, a, b):                                                          #_srodki_srednia
-    return [ srednia(tablica_jednego_typu[a]), srednia(tablica_jednego_typu[b]) ]               
+    return [tablica_jednego_typu[a].mean(), tablica_jednego_typu[a].mean() ]               
 
 
 
@@ -37,7 +37,7 @@ def opcja_2(tablica_jednego_typu, a,b):                                         
 
 
 import random
-def opcja_3(tablica_jednego_typu,a,b):          #_srodki_losowe
+def opcja_3(tablica_jednego_typu,a,b):                      #_srodki_losowe
     x = tablica_jednego_typu.sample(n=1).iloc[0]  
 
     return [x.iloc[0], x.iloc[1]]  

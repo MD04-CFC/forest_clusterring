@@ -29,10 +29,17 @@ print(X_sampled['Cover_Type'])'
 print(percent_classification('Elevation', 'Slope', 3, 1000))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 1000))
+print(percent_classification('Elevation', 'Slope', 1, 1000))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 1000))
+print(percent_classification2('Elevation', 'Slope', 3, 1000))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 1000))
+print(percent_classification2('Elevation', 'Slope', 1, 1000))
+print('\n')
+
+print(percent_classification3('Elevation', 'Slope', 3, 1000))
+print('\n')
+
+print(percent_classification3('Elevation', 'Slope', 1, 1000))
+print('\n')

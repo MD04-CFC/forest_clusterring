@@ -46,6 +46,42 @@ def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
 
 
 
+def percent_classification2(a, b, opcja, n):
+    centers = []
+    
+    # Fetch dataset
+    covertype = fetch_ucirepo(id=31)  
+    y = covertype.data.targets
+    X = covertype.data.features[[a, b]]
+    X_sampled = X.sample(n=n, random_state=42).copy()
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_sampled)
+
+    X_sampled['Cover_Type'] = y.loc[X_sampled.index, 'Cover_Type'].astype(int)
+    typy = [1, 2, 3, 4, 5, 6, 7]
+
+
+    for i in typy:
+        tablica_jednego_typu = X_sampled[X_sampled['Cover_Type'] == i].copy()
+
+        if opcja == 1:
+            centers.append(opcja_1(tablica_jednego_typu, a, b))
+        elif opcja == 2:
+            centers.append(opcja_2(tablica_jednego_typu, a, b))
+        elif opcja == 3:
+            centers.append(opcja_3(tablica_jednego_typu, a, b))
+            #print(centers)
+    
+
+    km = KMeans(n_clusters=7, init=centers, max_iter=15)
+    X_sampled['cluster'] = km.fit_predict(X_scaled)
+
+    # Convert to integers to avoid category fuckups
+    X_sampled['cluster'] = X_sampled['cluster'].astype(int)
+    accuracy = (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+    return accuracy
+
 
 
 def percent_classification(a, b, opcja, n):
@@ -84,6 +120,43 @@ def percent_classification(a, b, opcja, n):
     accuracy = (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
     return accuracy
 
+
+
+def percent_classification3(a, b, opcja, n):
+    centers = []
+    
+    # Fetch dataset
+    covertype = fetch_ucirepo(id=31)  
+    y = covertype.data.targets
+    X = covertype.data.features[[a, b]]
+    X_sampled = X.sample(n=n, random_state=42).copy()
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_sampled)
+
+    X_sampled['Cover_Type'] = y.loc[X_sampled.index, 'Cover_Type'].astype(int)
+    typy = [1, 2, 3, 4, 5, 6, 7]
+
+
+    for i in typy:
+        tablica_jednego_typu = X_sampled[X_sampled['Cover_Type'] == i].copy()
+
+        if opcja == 1:
+            centers.append(opcja_1(tablica_jednego_typu, a, b))
+        elif opcja == 2:
+            centers.append(opcja_2(tablica_jednego_typu, a, b))
+        elif opcja == 3:
+            centers.append(opcja_3(tablica_jednego_typu, a, b))
+            #print(centers)
+    
+
+    km = KMeans(n_clusters=7, max_iter=15)
+    X_sampled['cluster'] = km.fit_predict(X_scaled)
+
+    # Convert to integers to avoid category fuckups
+    X_sampled['cluster'] = X_sampled['cluster'].astype(int)
+    accuracy = (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+    return accuracy
 
 
 
