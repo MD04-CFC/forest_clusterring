@@ -36,24 +36,24 @@ print(X_sampled['Cover_Type'])
 print(percent_classification('Elevation', 'Slope', 3, 10, False))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 10, False))
+print(percent_classification('Elevation', 'Slope', 3, 10, True))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 10, False))
-print('\n')
-
-print(percent_classification('Elevation', 'Slope', 3, 10, False))
-
-
-
-
-print(percent_classification('Elevation', 'Slope', 1, 10, True))
+print(percent_classification('Elevation', 'Slope', 1, 10, False))
 print('\n')
 
 print(percent_classification('Elevation', 'Slope', 1, 10, True))
+
+
+
+
+print(percent_classification('Elevation', 'Slope', 1, 5, True))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 1, 10, True))
+print(percent_classification('Elevation', 'Slope', 1, 5, False))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 1, 10, True))
+print(percent_classification('Elevation', 'Slope', 3, 5, True))
+print('\n')
+
+print(percent_classification('Elevation', 'Slope', 3, 5, False))
