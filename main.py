@@ -27,6 +27,7 @@ X_scaled = scaler.fit_transform(X_sampled)
 y['Cover_Type'] = y['Cover_Type'].astype('category')
 X_sampled['Cover_Type'] = y['Cover_Type']
 
+'''
 print(X_sampled['Cover_Type'])
 
 
@@ -53,7 +54,16 @@ print('\n')
 print(percent_classification('Elevation', 'Slope', 1, 5, False))
 print('\n')
 
-print(percent_classification('Elevation', 'Slope', 3, 5, True))
+print(percent_classification('Elevation', 'Slope', 3, 5, True))  #0.238
 print('\n')
 
 print(percent_classification('Elevation', 'Slope', 3, 5, False))
+'''
+
+
+
+best = search_for_5_best(features=features, iter=1, opcja=1, manaual_centers_yes=True) 
+
+#print(best)
+for i in best:
+    print(i[0], i[1])

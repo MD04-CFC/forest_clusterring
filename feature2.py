@@ -71,8 +71,11 @@ df["Hierarchical_Cluster"] = hierarchical_labels
 print("\nCover Type Distribution in K-Means Clusters:")
 print(pd.crosstab(df["KMeans_Cluster"], df["Cover_Type"], normalize="index"))
 
+
+
 # Visualization (K-Means example using PCA)
 from sklearn.decomposition import PCA
+
 
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)

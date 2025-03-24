@@ -111,6 +111,7 @@ def percent_classification(a, b, opcja, iter, manaual_centers_yes):
     # Choose center calculation function
     opcja_map = {1: opcja_1, 2: opcja_2, 3: opcja_3}
     center_func = opcja_map.get(opcja)
+    
     if not center_func:
         raise ValueError("Invalid opcja, must be 1, 2, or 3.")
 
@@ -121,7 +122,7 @@ def percent_classification(a, b, opcja, iter, manaual_centers_yes):
             for i in range(1, 8)
         ]
         # Run KMeans with given centers
-        km = KMeans(n_clusters=7, init=centers, max_iter=iter, n_init=10)
+        km = KMeans(n_clusters=7, init=centers)
 
     else:
         # Run KMeans without manual centers
@@ -130,7 +131,7 @@ def percent_classification(a, b, opcja, iter, manaual_centers_yes):
 
     X_sampled['cluster'] = km.fit_predict(X_scaled)
 
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   --> it isn't actually naive, KMeans IDs are from centers and centers are from the real classes(cover type), that's the whole point of doing centers manually!!!
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
     return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
 
 
@@ -153,11 +154,6 @@ def search_for_5_best(features, iter,opcja, manaual_centers_yes):
     return ans  # Returns top 5 feature pairs with highest accuracy
 
 
-best = search_for_5_best(features=features, iter=1, opcja=1, manaual_centers_yes=True) 
-
-#print(best)
-for i in best:
-    print(i[0], i[1])
 
 
 
