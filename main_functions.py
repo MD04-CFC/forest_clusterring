@@ -15,6 +15,7 @@ features = [
     "Horizontal_Distance_To_Fire_Points"
 ]
 
+'''
 def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
     centers = []
     for i in typy:
@@ -48,9 +49,7 @@ def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
                         color='cluster')
 
     fig.show(renderer='browser')        
-
-
-
+'''
 
 
 # def percent_classification(a, b, opcja):
@@ -102,7 +101,7 @@ def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
 
 
 
-def percent_classification(a, b, opcja):
+def percent_classification(a, b, opcja, iter, manaual_centers_yes):
     # Fetch and sample data
     X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
 
@@ -115,21 +114,28 @@ def percent_classification(a, b, opcja):
     if not center_func:
         raise ValueError("Invalid opcja, must be 1, 2, or 3.")
 
-    # Calculate centers for each class
-    centers = [
-        center_func(X_sampled[X_sampled['Cover_Type'] == i], a, b)
-        for i in range(1, 8)
-    ]
+    if manaual_centers_yes:
+        # Calculate centers for each class
+        centers = [
+            center_func(X_sampled[X_sampled['Cover_Type'] == i], a, b)
+            for i in range(1, 8)
+        ]
+        # Run KMeans with given centers
+        km = KMeans(n_clusters=7, init=centers, max_iter=iter, n_init=10)
 
-    # Run KMeans with given centers
-    km = KMeans(n_clusters=7, init=centers, max_iter=1, n_init=10)
+    else:
+        # Run KMeans without manual centers
+        km = KMeans(n_clusters=7, max_iter=iter, n_init=10)
+
+
     X_sampled['cluster'] = km.fit_predict(X_scaled)
 
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   --> it isn't actually naive, KMeans IDs are from centers and centers are from the real classes(cover type), that's the whole point of doing centers manually!!!
     return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
 
 
-def search_for_5_best(features):
+
+def search_for_5_best(features, iter,opcja, manaual_centers_yes):
     ans = []  # List to store best feature pairs and their accuracy
     
     for i in range(len(features)):
@@ -138,7 +144,7 @@ def search_for_5_best(features):
         for j in range(i + 1, len(features)):  # Avoid (a, a) pairs
             b = features[j]
             
-            accuracy = percent_classification(a, b, 1)
+            accuracy = percent_classification(a, b, opcja,iter, manaual_centers_yes)  # Calculate accuracy for feature pair
 
             # Store [a, b] as an array inside the result list
             ans.append([[a, b], accuracy])
@@ -147,9 +153,11 @@ def search_for_5_best(features):
     return ans  # Returns top 5 feature pairs with highest accuracy
 
 
-best = search_for_5_best(features=features) 
+best = search_for_5_best(features=features, iter=1, opcja=1, manaual_centers_yes=True) 
 
-print(best)
+#print(best)
+for i in best:
+    print(i[0], i[1])
 
 
 
