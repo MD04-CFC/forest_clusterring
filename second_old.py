@@ -1,18 +1,19 @@
 # 2D before AI , it's ok
 
 
-from ucimlrepo import fetch_ucirepo 
+from ucimlrepo import fetch_ucirepo
 from sklearn.cluster import KMeans
 import plotly.express as px
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
   
 # fetch dataset 
-covertype = fetch_ucirepo(id=31) 
-  
+covertype = pd.read_csv("dataset.csv") 
+
 # data (as pandas dataframes) 
-y = covertype.data.targets 
-X = covertype.data.features[['Elevation','Slope']]
-X_sampled = X.sample(n=300, random_state=42).copy()
+y = covertype['Cover_Type']
+X = covertype[['Elevation','Slope']]
+X_sampled = X.sample(n=3000, random_state=42)
 
 #print(y.head())
 

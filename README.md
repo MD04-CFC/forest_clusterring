@@ -55,3 +55,5 @@ Purpose: Discover natural clusters that align with forest cover types, potential
 + klasyfikacja z klastrow wzgledem faktow ?
 + deadline 8/15 kwietnia
 
+
+Zapytac o cechach w prowadzacego
