@@ -29,11 +29,6 @@ X_sampled['Cover_Type'] = y['Cover_Type']
 
 '''
 print(X_sampled['Cover_Type'])
-
-
-
-
-
 print(percent_classification('Elevation', 'Slope', 3, 10, False))
 print('\n')
 
@@ -44,9 +39,6 @@ print(percent_classification('Elevation', 'Slope', 1, 10, False))
 print('\n')
 
 print(percent_classification('Elevation', 'Slope', 1, 10, True))
-
-
-
 
 print(percent_classification('Elevation', 'Slope', 1, 5, True))
 print('\n')
@@ -61,8 +53,13 @@ print(percent_classification('Elevation', 'Slope', 3, 5, False))
 '''
 
 
-
-best = search_for_5_best(features=features, iter=1, opcja=1, manaual_centers_yes=True) 
+features = [
+    "Elevation", "Aspect", "Slope", "Horizontal_Distance_To_Hydrology",
+    "Vertical_Distance_To_Hydrology", "Horizontal_Distance_To_Roadways",
+    "Hillshade_9am", "Hillshade_Noon", "Hillshade_3pm",
+    "Horizontal_Distance_To_Fire_Points"
+]
+best = search_for_5_best_brc(features=features) 
 
 #print(best)
 for i in best:

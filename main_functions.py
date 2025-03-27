@@ -15,6 +15,242 @@ features = [
     "Horizontal_Distance_To_Fire_Points"
 ]
 
+
+from sklearn.cluster import DBSCAN
+
+def percent_classification_dbscan(a, b):
+    # Fetch and sample data
+    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
+
+    # Normalize features
+    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
+
+    dbscan = DBSCAN(eps=1.5, min_samples=7)  # Adjust parameters as needed
+
+    X_sampled['cluster'] = dbscan.fit_predict(X_scaled)
+
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
+    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+
+
+
+
+from sklearn.cluster import Birch
+
+def percent_classification_brc(a, b):
+    # Fetch and sample data
+    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
+
+    # Normalize features
+    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
+
+    # Run Birch clustering
+    brc = Birch(n_clusters=7)
+
+    X_sampled['cluster'] = brc.fit_predict(X_scaled)
+
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
+    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+
+
+
+
+def percent_classification(a, b, opcja, iter, manaual_centers_yes):
+    # Fetch and sample data
+    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
+
+    # Normalize features
+    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
+
+    # Choose center calculation function
+    opcja_map = {1: opcja_1, 2: opcja_2, 3: opcja_3}
+    center_func = opcja_map.get(opcja)
+    
+    if not center_func:
+        raise ValueError("Invalid opcja, must be 1, 2, or 3.")
+
+    if manaual_centers_yes:
+        # Calculate centers for each class
+        centers = [
+            center_func(X_sampled[X_sampled['Cover_Type'] == i], a, b)
+            for i in range(1, 8)
+        ]
+        # Run KMeans with given centers
+        km = KMeans(n_clusters=7, init=centers)
+
+    else:
+        # Run KMeans with automatic centers
+        km = KMeans(n_clusters=7, max_iter=iter, n_init=10)
+
+
+    X_sampled['cluster'] = km.fit_predict(X_scaled)
+
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
+    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+
+
+
+
+def search_for_5_best_dbscan(features):
+    ans = [] # List to store best feature pairs and their accuracy
+
+    for i in range(len(features)):
+        a = features[i]
+
+        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
+            b = features[j]
+            acc = percent_classification_dbscan(a, b)
+            ans.append([[a, b], acc])   
+
+
+
+    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
+    return ans # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
+def search_for_5_best_brc(features):
+    ans = [] # List to store best feature pairs and their accuracy
+
+    for i in range(len(features)):
+        a = features[i]
+
+        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
+            b = features[j]
+            acc = percent_classification_brc(a, b)
+            ans.append([[a, b], acc])   
+
+
+
+    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
+    return ans # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
+def search_for_5_best(features):
+    ans = [] # List to store best feature pairs and their accuracy
+
+    for i in range(len(features)):
+        a = features[i]
+
+        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
+            b = features[j]
+
+            for iter in range(1,10):
+
+                for opcja in range(1,3):
+                    accuracy = percent_classification(a, b, opcja,iter, True)
+                    ans.append([[a, b], accuracy])
+
+
+                acc = percent_classification(a, b, 1,iter, False)
+                ans.append([[a, b], acc])   
+
+
+
+    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
+    return ans # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
+
+
+def search_for_5_best2(features, iter,opcja, manaual_centers_yes):
+    ans = []  # List to store best feature pairs and their accuracy
+    
+    for i in range(len(features)):
+        a = features[i]
+        
+        for j in range(i + 1, len(features)):  # Avoid (a, a) pairs
+            b = features[j]
+            
+            accuracy = percent_classification(a, b, opcja,iter, manaual_centers_yes)  # Calculate accuracy for feature pair
+
+            # Store [a, b] as an array inside the result list
+            ans.append([[a, b], accuracy])
+            ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5]  # Keep only top 5
+
+    return ans  # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
+def wykresy(a, b, n):
+    covertype = fetch_ucirepo(id=31) 
+    y = covertype.data.targets 
+    X = covertype.data.features[[a,b]]
+    X_sampled = X.sample(n=n, random_state=42).copy()
+
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_sampled)
+
+    km = KMeans(n_clusters = 7, random_state=42)
+
+    X_sampled['cluster'] = km.fit_predict(X_scaled) 
+    X_sampled['cluster'] = X_sampled['cluster'].astype('category')
+
+
+
+    fig = px.scatter(X_sampled,
+                        x=a,
+                        y=b,
+                        color='cluster')
+    fig.show(renderer='browser')
+
+
+
+    y['Cover_Type'] = y['Cover_Type'].astype('category')
+    X_sampled.update(y['Cover_Type'])
+
+    fig2 = px.scatter(X_sampled,
+                        x=a,
+                        y=b,
+                        color='Cover_Type')
+    fig2.show(renderer='browser')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''    colors_basic = ['#4EACC5', '#FF9C34', '#4E9A06']              #4EACC5 (blue)      FF9C34 (orange)     4E9A06 (green)
+
+    colors_all = [
+        '#4EACC5', '#FF9C34', '#4E9A06', '#C70039', '#900C3F', '#581845',
+        '#FFC300', '#DAF7A6', '#FF5733', '#33FFBD', '#8D33FF', '#FF33A8',
+        '#2E86C1', '#28B463', '#A569BD', '#D35400', '#E74C3C', '#1ABC9C',
+        '#F1C40F', '#95A5A6', '#34495E', '#E67E22', '#16A085', '#7D3C98',
+        '#C0392B', '#5D6D7E', '#48C9B0', '#DC7633', '#99A3A4', '#F39C12']
+    
+    import random
+    colors = [''] * n_clusters
+    for i in range(n_clusters):
+        colors[i] = random.choice(colors_all)  
+        '''
+
+
+
+
 '''
 def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
     centers = []
@@ -96,100 +332,3 @@ def clusters_from_centers(zmienna1, zmienna2,calosc, typy, opcja):
 #     X_sampled['cluster'] = X_sampled['cluster'].astype(int)
 #     accuracy = (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
 #     return accuracy
-
-
-
-
-
-def percent_classification(a, b, opcja, iter, manaual_centers_yes):
-    # Fetch and sample data
-    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
-
-    # Normalize features
-    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
-
-    # Choose center calculation function
-    opcja_map = {1: opcja_1, 2: opcja_2, 3: opcja_3}
-    center_func = opcja_map.get(opcja)
-    
-    if not center_func:
-        raise ValueError("Invalid opcja, must be 1, 2, or 3.")
-
-    if manaual_centers_yes:
-        # Calculate centers for each class
-        centers = [
-            center_func(X_sampled[X_sampled['Cover_Type'] == i], a, b)
-            for i in range(1, 8)
-        ]
-        # Run KMeans with given centers
-        km = KMeans(n_clusters=7, init=centers)
-
-    else:
-        # Run KMeans without manual centers
-        km = KMeans(n_clusters=7, max_iter=iter, n_init=10)
-
-
-    X_sampled['cluster'] = km.fit_predict(X_scaled)
-
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
-    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
-
-
-
-def search_for_5_best(features, iter,opcja, manaual_centers_yes):
-    ans = []  # List to store best feature pairs and their accuracy
-    
-    for i in range(len(features)):
-        a = features[i]
-        
-        for j in range(i + 1, len(features)):  # Avoid (a, a) pairs
-            b = features[j]
-            
-            accuracy = percent_classification(a, b, opcja,iter, manaual_centers_yes)  # Calculate accuracy for feature pair
-
-            # Store [a, b] as an array inside the result list
-            ans.append([[a, b], accuracy])
-            ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5]  # Keep only top 5
-
-    return ans  # Returns top 5 feature pairs with highest accuracy
-
-
-
-
-
-def wykresy(a, b, n):
-    covertype = fetch_ucirepo(id=31) 
-    y = covertype.data.targets 
-    X = covertype.data.features[[a,b]]
-    X_sampled = X.sample(n=n, random_state=42).copy()
-
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X_sampled)
-
-    km = KMeans(n_clusters = 7, random_state=42)
-
-    X_sampled['cluster'] = km.fit_predict(X_scaled) 
-    X_sampled['cluster'] = X_sampled['cluster'].astype('category')
-
-
-
-    fig = px.scatter(X_sampled,
-                        x=a,
-                        y=b,
-                        color='cluster')
-    fig.show(renderer='browser')
-
-
-
-    y['Cover_Type'] = y['Cover_Type'].astype('category')
-    X_sampled.update(y['Cover_Type'])
-
-    fig2 = px.scatter(X_sampled,
-                        x=a,
-                        y=b,
-                        color='Cover_Type')
-    fig2.show(renderer='browser')
-
-
-
