@@ -16,41 +16,49 @@ features = [
 ]
 
 
-from sklearn.cluster import DBSCAN
-
-def percent_classification_dbscan(a, b):
-    # Fetch and sample data
-    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
-
-    # Normalize features
-    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
-
-    dbscan = DBSCAN(eps=1.5, min_samples=7)  # Adjust parameters as needed
-
-    X_sampled['cluster'] = dbscan.fit_predict(X_scaled)
-
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
-    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
-
-
-
-
 from sklearn.cluster import Birch
+def percent_classification_brc(*args):
+    if len(args) < 2:
+        raise ValueError("Musisz podać co najmniej 2 kolumny do klastrowania.")
 
-def percent_classification_brc(a, b):
-    # Fetch and sample data
-    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
+    columns = list(args) + ['Cover_Type']
+    X_sampled = pd.read_csv("dataset.csv", usecols=columns)
 
-    # Normalize features
-    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
 
-    # Run Birch clustering
+    X_scaled = StandardScaler().fit_transform(X_sampled[list(args)])
+
     brc = Birch(n_clusters=7)
+    X_sampled['cluster'] = brc.fit_predict(X_scaled)   
 
-    X_sampled['cluster'] = brc.fit_predict(X_scaled)
-
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
     return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+
+
+
+
+
+def search_for_5_best_brc(features, n):
+    ans = [] # List to store best feature pairs and their accuracy
+
+    for i in range(len(features)):
+        a = features[i]
+
+        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
+            b = features[j]
+            if n > 2:
+                for k in range(j + 1, len(features)):
+                    c = features[k]
+                    accuracy = percent_classification_brc(a, b, c)
+                    ans.append((a, b, c, accuracy))
+
+            else:
+                acc = percent_classification_brc(a, b)
+                ans.append([[a, b], acc])
+
+    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
+    return ans # Returns top 5 feature pairs with highest accuracy
+
+
+
 
 
 
@@ -84,49 +92,7 @@ def percent_classification(a, b, opcja, iter, manaual_centers_yes):
 
 
     X_sampled['cluster'] = km.fit_predict(X_scaled)
-
-    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
     return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
-
-
-
-
-def search_for_5_best_dbscan(features):
-    ans = [] # List to store best feature pairs and their accuracy
-
-    for i in range(len(features)):
-        a = features[i]
-
-        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
-            b = features[j]
-            acc = percent_classification_dbscan(a, b)
-            ans.append([[a, b], acc])   
-
-
-
-    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
-    return ans # Returns top 5 feature pairs with highest accuracy
-
-
-
-
-
-def search_for_5_best_brc(features):
-    ans = [] # List to store best feature pairs and their accuracy
-
-    for i in range(len(features)):
-        a = features[i]
-
-        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
-            b = features[j]
-            acc = percent_classification_brc(a, b)
-            ans.append([[a, b], acc])   
-
-
-
-    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
-    return ans # Returns top 5 feature pairs with highest accuracy
-
 
 
 
@@ -161,7 +127,45 @@ def search_for_5_best(features):
 
 
 
-def search_for_5_best2(features, iter,opcja, manaual_centers_yes):
+from sklearn.cluster import DBSCAN
+
+def percent_classification_dbscan(a, b):
+    # Fetch and sample data
+    X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
+
+    # Normalize features
+    X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
+
+    dbscan = DBSCAN(eps=1.5, min_samples=7)  # Adjust parameters as needed
+
+    X_sampled['cluster'] = dbscan.fit_predict(X_scaled)
+
+    # Compute "accuracy" (naive, since KMeans cluster IDs are arbitrary)   
+    return (X_sampled['cluster'] == X_sampled['Cover_Type']).mean()
+
+
+
+def search_for_5_best_dbscan(features):
+    ans = [] # List to store best feature pairs and their accuracy
+
+    for i in range(len(features)):
+        a = features[i]
+
+        for j in range(i + 1, len(features)): # Avoid (a, a) pairs
+            b = features[j]
+            acc = percent_classification_dbscan(a, b)
+            ans.append([[a, b], acc])   
+
+
+
+    ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5] # Keep only top 5
+    return ans # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
+def search_for_5_best_oldversion(features, iter,opcja, manaual_centers_yes):
     ans = []  # List to store best feature pairs and their accuracy
     
     for i in range(len(features)):
@@ -177,6 +181,11 @@ def search_for_5_best2(features, iter,opcja, manaual_centers_yes):
             ans = sorted(ans, key=lambda x: x[1], reverse=True)[:5]  # Keep only top 5
 
     return ans  # Returns top 5 feature pairs with highest accuracy
+
+
+
+
+
 
 
 
