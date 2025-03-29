@@ -1,0 +1,92 @@
+Metody Klasteryzacji: DBSCAN i Hierarchical Clustering
+
+
+DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+
+DBSCAN to metoda klasteryzacji oparta na gęstości, która grupuje punkty na podstawie ich zagęszczenia w przestrzeni. W przeciwieństwie do K-Means, DBSCAN nie wymaga wcześniejszego określania liczby klastrów i dobrze radzi sobie z danymi o nieregularnych kształtach oraz zawierającymi szum.
+
+Zasada działania:
+
+    Wybierany jest losowy punkt nieprzypisany do żadnego klastra.
+
+    Jeśli w jego sąsiedztwie (określonym przez parametr eps) znajduje się co najmniej min_samples punktów, tworzony jest nowy klaster.
+
+    Punkty w sąsiedztwie są dołączane do klastra, a proces powtarza się dla ich sąsiadów (tzw. rozrastanie klastra).
+
+    Jeśli punkt nie spełnia warunków gęstości, uznawany jest za szum.
+
+    Proces trwa do momentu przypisania wszystkich punktów do klastrów lub oznaczenia ich jako szum.
+
+Zalety DBSCAN:
+✔ Nie wymaga określania liczby klastrów.
+✔ Dobrze wykrywa klastry o dowolnych kształtach i różnym zagęszczeniu.
+✔ Radzi sobie z szumem i wartościami odstającymi.
+
+Wady DBSCAN:
+✘ Parametry eps i min_samples muszą być dobrze dobrane, co może być trudne.
+✘ Może mieć problem z danymi o zmiennym zagęszczeniu (klastry o różnej gęstości mogą być źle rozdzielone).
+
+
+Analiza wyników zastosowania metody DBSCAN:
+
+metoda była zastosowana do stworzenia 4 wykresów, z następującymi parametrami:
+    1. Elevation and Aspect (wysokość oraz aspekt)
+    2. Elevation and Slope (wysokośc oraz nachylenie)
+    3. Hillshade 9am and Hillshade 3pm (cień o 9 rano oraz cień o 15 godzinie)
+    4. Elevation, Aspect, Slope, Horizontal_Distance_To_Hydrology, Vertical_Distance_To_Hydrology (wysokość, aspekt, nachylenie, odleglość pozioma do wody, odleglość pionowa do wody)
+
+z których można wynieść następujące wnioski:
+
+    * wysokość jest dominującą cechą w podziale klastrów - to ma sens, ponieważ elewacja jest kluczową cechą w analizie topograficznej – wyraźnie wpływa na ekosystemy, roślinność i dostępność wody.
+
+    * rozkład aspektu ma znaczniej mniejszy wpływ na podział klastrów - możliwe, że aspekty mają podobny rozkład dla różnych typów pokrycia terenu, przez co DBSCAN nie traktuje ich jako istotnego kryterium klasteryzacji.
+
+    * odleglość do wody jest drugą dominującą cechą w podziale - DBSCAN silnie uwzględnia tę cechę, może to oznaczać, że obszary blisko i daleko od wody różnią się na tyle, by tworzyć osobne grupy.
+
+Podsumowanie wyników
+
+Analiza metod DBSCAN i hierarchicznego grupowania wykazała, że uzyskane klastry dobrze odzwierciedlają naturalny podział terenów leśnych i typów pokrycia terenu.
+
+2. Kluczowe obserwacje
+
+✅ Klastry pokrywają się z rzeczywistymi grupami ekosystemów
+
+    Wizualna analiza wykresów pokazuje, że granice klastrów zgadzają się z rzeczywistymi typami pokrycia terenu.
+
+    Podział jest szczególnie widoczny dla obszarów o dużych różnicach wysokości i odległości od hydrologii.
+
+✅ Silhouette Score i Davies-Bouldin Index wskazują na umiarkowaną jakość klastrów
+
+    DBSCAN: Silhouette Score = 0.371, DBI = 1.844
+
+    Hierarchical Clustering: Silhouette Score = 0.134, DBI = 1.852
+
+    Wyniki pokazują, że DBSCAN tworzy lepiej zdefiniowane klastry niż metoda hierarchiczna, ale podział nie jest idealny i może wymagać dalszej optymalizacji parametrów.
+
+
+
+
+Hierarchical Clustering (Klasteryzacja Hierarchiczna)
+
+Klasteryzacja hierarchiczna to metoda grupowania danych, w której klastry są tworzone na różnych poziomach szczegółowości, umożliwiając analizę danych w formie drzewa (dendrogramu).
+
+Dwa podejścia:
+
+    Agresywna (bottom-up, agglomerative) – każdy punkt początkowo stanowi oddzielny klaster, a następnie są one łączone w większe grupy na podstawie ich podobieństwa.
+
+    Dzieląca (top-down, divisive) – wszystkie punkty początkowo tworzą jeden duży klaster, który jest następnie dzielony na mniejsze podgrupy.
+
+
+
+Zalety Hierarchical Clustering:
+✔ Nie wymaga podania liczby klastrów – można analizować dendrogram i ustalić optymalny podział.
+✔ Tworzy hierarchię klastrów, co pozwala na analizę na różnych poziomach szczegółowości.
+✔ Dobrze działa na mniejszych zbiorach danych.
+
+Wady Hierarchical Clustering:
+✘ Bardzo wolna dla dużych zbiorów danych (złożoność obliczeniowa O(n²) lub O(n³)).
+✘ Wrażliwa na wartości odstające i szum.
+✘ Raz utworzone połączenia nie mogą być cofnięte (brak elastyczności).
+
+
+Analizując wyniki uzyskane z metody Hierarchical Clustering możemy tylko podtwierdzić poprawność wyników które uzyskaliśmy z metod K-Means oraz DBSCAN
