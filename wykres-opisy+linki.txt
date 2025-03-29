@@ -1,0 +1,48 @@
+dotyczy się wykresów - _finals_X.png, w repo
+
+
+wykres1
+
+
+Pierwszy wykres (KMeans Clustering) pokazuje grupowanie punktów za pomocą algorytmu KMeans, co prowadzi do wyraźnych pionowych pasm, co sugeruje, że wysokość jest dominującą cechą w podziale klastrów
+Drugi wykres (Covertype Classification) pokazuje rzeczywisty podział typów pokrycia terenu, który ma bardziej złożony wzór. Widoczne są pewne podobne pionowe pasma, ale klasyfikacja jest bardziej zróżnicowana na różnych poziomach nachylenia.
+Można zauważyć, że niektóre grupy klastrów w pierwszym wykresie dobrze pokrywają się z rzeczywistymi klasami z drugiego wykresu, ale istnieją obszary, gdzie rzeczywisty podział jest bardziej skomplikowany, co sugeruje użycie większej ilości zmiennych
+
+
+wykres5
+
+Pierwszy wykres przedstawia wynik klastrowania metodą K-Means na danych dotyczących nasłonecznienia o 3 PM i 9 AM. Widoczne są wyraźnie zdefiniowane grupy, które układają się w łuk, sugerując, że wartości nasłonecznienia mają ograniczony zakres i mogą być skorelowane. 
+Drugi wykres pokazuje rzeczywiste typy pokrycia terenu (covertype) i widać, że naturalne klasy (covertype) są bardziej wymieszane niż wyniki klastrowania K-Means, co sugeruje, że klasyfikacja rzeczywistych pokryć terenu może być bardziej złożona i nie w pełni uchwytna przez prostą analizę klastrów. 
+Dodatkowo, oba wykresy sugerują, że różne typy pokrycia terenu mają podobne rozkłady w przestrzeni Hillshade_3pm i Hillshade_9am, a krzywa widoczna na obu wykresach przypomina fragment paraboli lub bardziej ogólnie funkcji pierwiastkowej (np. y = (x^2-a^2)^(1/2) ) co sugeruje ograniczenie wartości przez pewien maksymalny promień.
+Jej kształt wskazuje na związek między Hillshade_3pm i Hillshade_9am, który może wynikać z geometrycznych właściwości nasłonecznienia – np. sposób padania światła o różnych porach dnia na powierzchnię terenu.
+
+
+
+
+
+wykres3 (clusters_finals_3, reals_finals_3)
+
+Na pierwszym wykresie widzimy, że klasteryzacja podzieliła dane głównie według wysokości (Elevation) oraz częściowo według aspektu (Aspect). Granice klastrów są wyraźne, co sugeruje, że wysokość ma dominujące znaczenie w procesie grupowania. Rozkład aspektu, czyli orientacji terenu, wydaje się mniej wpływać na podział klastrów, ale w rzeczywistych danych (drugi wykres) widać, że niektóre pokrycia mogą mieć lekką preferencję względem orientacji stoków (np. różne ekspozycje względem słońca mogą wpływać na wegetację).
+Różnice w pokryciu terenu wynikają prawdopodobnie ze zmian w warunkach siedliskowych, takich jak temperatura, dostępność wody oraz typ gleby. Niższe wysokości mogą sprzyjać bardziej zróżnicowanej roślinności, podczas gdy na wyższych dominują bardziej odporne gatunki.
+
+
+
+
+Wykresy 3D
+
+http://maciejd.cba.pl/792290_cover_3D.html
+http://maciejd.cba.pl/792290_clusters_3D.html
+
+http://maciejd.cba.pl/683554_cover_3D.html
+http://maciejd.cba.pl/683554_clusters_3D.html
+
+http://maciejd.cba.pl/114735_clusters_3D.html
+http://maciejd.cba.pl/114735_cover_3D.html
+
+http://maciejd.cba.pl/422039_cover_3D.html
+http://maciejd.cba.pl/422039_clusters_3D.html
+
+http://maciejd.cba.pl/622435_clusters_3D.html
+http://maciejd.cba.pl/622435_cover_3D.html
+
+
