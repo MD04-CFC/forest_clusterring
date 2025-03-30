@@ -4,12 +4,12 @@
 
 1) Commends to run in terminal before running the code:
 
-pip install ucimlrepo
-pip install pandas
-pip install numpy
-pip install matplotlib
-pip install plotly.express
-pip install sklearn.cluster
+    pip install ucimlrepo
+    pip install pandas
+    pip install numpy
+    pip install matplotlib
+    pip install plotly.express
+    pip install sklearn.cluster
 
 
 
