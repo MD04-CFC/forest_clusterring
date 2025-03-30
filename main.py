@@ -55,4 +55,4 @@ for i in best:
 '''
 
 
-wykres_3D_html('Elevation', 'Aspect', 'Slope', 800, 3)
+wykres_3D_both('Elevation', 'Aspect', 'Slope', 800, 3)
