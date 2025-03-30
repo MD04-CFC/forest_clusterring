@@ -1,0 +1,53 @@
+Opis wyników klasteryzacji metodą DBSCAN:
+
+wykres (elevation_slope_v2):
+
+Na przedstawionym wykresie widzimy, że metoda DBSCAN podzieliła dane w sposób odmienny niż K-means. Kluczową cechą DBSCAN jest zdolność do identyfikacji gęstych skupisk punktów oraz wykrywania punktów odstających (outliers).
+
+W tym przypadku klasteryzacja nadal sugeruje silne uzależnienie pokrycia terenu od wysokości (Elevation), ale w przeciwieństwie do K-means, DBSCAN nie wymusza podziału na określoną liczbę grup. Można zauważyć, że najgęstszy klaster (dominujący kolor, np. niebieski) koncentruje się w dolnym obszarze wykresu, co wskazuje na większą ilość punktów w określonym zakresie wysokości i nachylenia.  
+
+Ponadto, widać mniejsze, bardziej rozproszone klastry na obrzeżach głównej grupy, co sugeruje, że DBSCAN skutecznie identyfikuje obszary o różnym stopniu gęstości. Może to odzwierciedlać rzeczywiste zróżnicowanie ekosystemów, gdzie niektóre typy pokrycia terenu występują w specyficznych warunkach, a inne mają bardziej rozproszony charakter.  
+
+Metoda DBSCAN może również skutecznie identyfikować anomalie – pojedyncze punkty lub małe grupy punktów, które nie należą do żadnego większego klastra. Może to wskazywać na rzadkie lub nietypowe obszary, np. miejsca o ekstremalnych warunkach środowiskowych.  
+
+
+wykres (elevation_aspect_v2):
+
+Na przedstawionym wykresie widać, że metoda DBSCAN wykryła kilka wyraźnych skupisk danych na podstawie wysokości (Elevation) oraz aspektu (Aspect).
+
+Podobnie jak w przypadku poprzednich metod, wysokość nadal wydaje się dominującym czynnikiem wpływającym na podział klastrów. Można zauważyć, że największy i najbardziej wyraźny klaster znajduje się w dolnej części wykresu (niższe wysokości), co może sugerować, że określony typ pokrycia terenu dominuje na niższych wysokościach. W wyższych partiach pojawiają się mniejsze, ale bardziej skoncentrowane skupiska, co może wynikać ze specyficznych warunków środowiskowych (np. innego typu gleby czy ekspozycji stoków).
+
+
+wykres (hillshade_9am_3pm_v2):
+
+Klasteryzacja uwzględnia głównie zależność między wartością oświetlenia terenu o godzinie 9:00 (Hillshade_9am) oraz o godzinie 15:00 (Hillshade_3pm).
+
+Najbardziej dominującą grupę stanowi klaster oznaczony kolorem niebieskim, co sugeruje, że większość obserwacji ma zbliżone wartości nasłonecznienia w tych dwóch godzinach. Rozmieszczenie punktów w tym klastrze układa się w charakterystyczny łuk, co może wynikać z naturalnych zależności pomiędzy porannym a popołudniowym oświetleniem terenu.  
+
+Pozostałe klastry, choć mniej liczne, mogą wskazywać na obszary o specyficznych warunkach terenowych, takich jak różnice w ekspozycji stoków względem słońca lub obecność zacienionych miejsc, gdzie nasłonecznienie jest wyraźnie niższe. Czerwone punkty, będące wartościami odstającymi, mogą reprezentować nietypowe obszary, np. doliny o bardzo ograniczonym dostępie światła słonecznego lub strome stoki o specyficznej orientacji.
+
+
+
+
+Opis wyników klasteryzacji metodą Hierarchical clustering:
+
+Hierarchical clustering, w odróżnieniu od metody k-means, nie wymusza sztywnego podziału danych na z góry określoną liczbę klastrów. Zamiast tego tworzy ciągłą strukturę – dendrogram – która ukazuje zależności między obserwacjami na różnych poziomach szczegółowości.
+
+
+wykres (elevation_slope_v2):
+
+Na wykresie widać, że na najwyższych poziomach hierarchii dominującą rolę ponownie odgrywa wysokość (Elevation). Jednakże drzewiasta struktura wyraźnie oddziela także podgrupy, w których istotny jest wpływ parametrów takich jak nachylenie terenu (Slope).
+
+Interesujące jest także to, że metoda hierarchiczna pozwala na obserwację naturalnego ciągu podobieństw między danymi, co może ujawniać obszary, gdzie granice klastrów są bardziej rozmyte. Obserwujemy bowiem sytuacje, w których obszary o zbliżonych wartościach Elevation, ale różniące się subtelnie nachyleniem, wskazują na istnienie przejściowych stref siedliskowych. Mogą one być szczególnie cenne, gdyż często odzwierciedlają miejsca, gdzie warunki środowiskowe zmieniają się stopniowo – na przykład przejścia między terenami bardziej zalesionymi a otwartymi polanami.
+
+
+wykres (elevation_aspect_v2):
+
+Wykres wskazuje, że:
+- Wysokość terenu jest nadal kluczowym czynnikiem – punkty odpowiadające różnym typom pokrycia wyraźnie segregują się wzdłuż osi Elevation.  
+- Kąt orientacji (Aspect) wnosi dodatkowy wymiar różnicujący – choć nie zawsze decydujący samodzielnie, to jednak w połączeniu z wysokością pozwala na jeszcze dokładniejsze rozróżnienie typów pokrycia.
+
+
+wykres (hillshade_9am_3pm_v2):
+
+Na wykresie można zauważyć wyraźne skupiska punktów, które odpowiadają poszczególnym typom pokrycia. Podział ten sugeruje, że różnice w oświetleniu w różnych porach dnia (9:00 rano vs. 15:00 po południu) są istotnymi czynnikami różnicującymi teren pod względem pokrycia. Każdy typ pokrycia terenu wykazuje charakterystyczny wzorzec rozkładu punktów – na przykład jedna grupa może skupiać się w obszarze o wyższych wartościach Hillshade_3pm i średnich Hillshade_9am, co mogłoby świadczyć o specyficznym ustawieniu względem słońca i unikalnej strukturze roślinności.

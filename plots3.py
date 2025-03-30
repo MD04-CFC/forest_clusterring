@@ -131,7 +131,7 @@ def wykres_2(a, b, opcja):
 
 
 
-def wykres_dbscan(a, b, eps=0.5, min_samples=5):
+def wykres_dbscan(a, b, eps=0.12, min_samples=10):
     X_sampled = pd.read_csv("dataset.csv", usecols=[a, b, 'Cover_Type'])
     X_scaled = StandardScaler().fit_transform(X_sampled[[a, b]])
     
@@ -140,12 +140,16 @@ def wykres_dbscan(a, b, eps=0.5, min_samples=5):
     
     # Fix for single-color issue: Assign -1 (outliers) a different color
     unique_clusters = set(X_sampled['cluster'])
-    colors = plt.colormaps.get_cmap('tab10')
+    colors_all = ['blue', 'red', 'green', 'purple', 'orange', 'cyan', 'brown', 'pink']  
+    fixed_colors = {i: colors_all[i] for i in range(7)} 
     
-    plt.figure(figsize=(8, 6))
+
+    i = 0
+    plt.figure(figsize=(9,9))
     for cluster in unique_clusters:
         mask = X_sampled['cluster'] == cluster
-        plt.scatter(X_sampled.loc[mask, a], X_sampled.loc[mask, b], label=f'Cluster {cluster}', color=colors(cluster))
+        plt.scatter(X_sampled.loc[mask, a], X_sampled.loc[mask, b], color=fixed_colors[i], label=f'Covertype {i+1}', alpha=0.6, edgecolors='k')        
+        i+=1
     
     plt.xlabel(a)
     plt.ylabel(b)
@@ -161,12 +165,17 @@ def wykres_hierarchical(a, b, n_clusters=7, linkage='ward'):
     X_sampled['cluster'] = hc.fit_predict(X_scaled)
     
     unique_clusters = set(X_sampled['cluster'])
-    colors = plt.colormaps.get_cmap('tab10')
     
-    plt.figure(figsize=(8, 6))
+    colors_all = ['blue', 'red', 'green', 'purple', 'orange', 'cyan', 'brown', 'pink']  
+    fixed_colors = {i: colors_all[i] for i in range(n_clusters)} 
+    
+
+    i = 0
+    plt.figure(figsize=(12,12))
     for cluster in unique_clusters:
         mask = X_sampled['cluster'] == cluster
-        plt.scatter(X_sampled.loc[mask, a], X_sampled.loc[mask, b], label=f'Cluster {cluster}', color=colors(cluster))
+        plt.scatter(X_sampled.loc[mask, a], X_sampled.loc[mask, b], color=fixed_colors[i], label=f'Covertype {i+1}', alpha=0.6, edgecolors='k')
+        i+=1
     
     plt.xlabel(a)
     plt.ylabel(b)
@@ -175,42 +184,5 @@ def wykres_hierarchical(a, b, n_clusters=7, linkage='ward'):
     plt.show()
 
 
-def dbscan_my(args, eps=1.5, min_samples=10):
-  
-    X_sampled = pd.read_csv("dataset.csv", usecols=args) 
-    X_scaled = StandardScaler().fit_transform(X_sampled[args])
-
-
-
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(X_scaled)
-    core_samples_mask = np.zeros_like(dbscan.labels_, dtype=bool)
-    if hasattr(dbscan, 'core_sample_indices_'):
-        core_samples_mask[dbscan.core_sample_indices_] = True
-    labels = dbscan.labels_
-    
-    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-    
-    unique_labels = set(labels)
-    colors = ['y', 'b', 'g', 'r', 'm', 'c']
-    plt.figure(figsize=(8, 6))
-    
-    for k, col in zip(unique_labels, colors):
-        if k == -1:
-            col = 'k'  # Black used for noise
-        
-        class_member_mask = (labels == k)
-        
-        xy = X_scaled[class_member_mask & core_samples_mask]
-        plt.scatter(xy[:, 0], xy[:, 1], c=col, edgecolor='k', s=50, label=f'Cluster {k}')
-        
-        xy = X_scaled[class_member_mask & ~core_samples_mask]
-        plt.scatter(xy[:, 0], xy[:, 1], c=col, edgecolor='k', s=25)
-    
-
-    plt.title(f'DBSCAN Clustering (Clusters: {n_clusters_})')
-    plt.legend()
-    plt.show()
-
-
-dbscan_my(["Elevation", "Aspect"])
+wykres_dbscan("Elevation", "Aspect")
 
