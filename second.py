@@ -15,12 +15,12 @@ covertype = fetch_ucirepo(id=31)
 X2 = covertype.data.features 
 y = covertype.data.targets 
 X = X2[['Elevation', 'Slope']].copy()   # copy, don't change original data
-X = X.sample(n=300, random_state=42)    # the same random method
+X = X.sample(n=3000, random_state=42)    # the same random method
 X = X.values                            # convert to numpy array
 
 
-n_clusters = 12
-k_means = KMeans(init='k-means++', n_clusters=n_clusters, n_init=25, random_state=42)        #def 10 
+n_clusters = 7
+k_means = KMeans(init='k-means++', n_clusters=n_clusters, n_init=25, random_state=10)         
 k_means.fit(X)
 k_means_labels = k_means.labels_
 k_means_cluster_centers = k_means.cluster_centers_

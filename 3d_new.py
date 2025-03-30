@@ -17,7 +17,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_sampled)
 
 
-n_clusters = 6  
+n_clusters = 7
 km = KMeans(n_clusters=n_clusters, random_state=42)
 X_sampled['cluster'] = km.fit_predict(X_scaled)
 X_sampled['cluster'] = X_sampled['cluster'].astype('category')
@@ -28,4 +28,14 @@ fig = px.scatter_3d(X_sampled,
                     z='Slope',
                     color='cluster')
 
-fig.show(renderer='browser')
+#fig.show(renderer='browser')
+fig.write_html("3d_cluster_plot.html")
+
+
+
+
+
+
+
+
+
