@@ -13,7 +13,7 @@ wykres5
 
 Pierwszy wykres przedstawia wynik klastrowania metodą K-Means na danych dotyczących nasłonecznienia o 3 PM i 9 AM. Widoczne są wyraźnie zdefiniowane grupy, które układają się w łuk, sugerując, że wartości nasłonecznienia mają ograniczony zakres i mogą być skorelowane. 
 Drugi wykres pokazuje rzeczywiste typy pokrycia terenu (covertype) i widać, że naturalne klasy (covertype) są bardziej wymieszane niż wyniki klastrowania K-Means, co sugeruje, że klasyfikacja rzeczywistych pokryć terenu może być bardziej złożona i nie w pełni uchwytna przez prostą analizę klastrów. 
-Dodatkowo, oba wykresy sugerują, że różne typy pokrycia terenu mają podobne rozkłady w przestrzeni Hillshade_3pm i Hillshade_9am, a krzywa widoczna na obu wykresach przypomina fragment paraboli lub bardziej ogólnie funkcji pierwiastkowej (np. y = (x^2-a^2)^(1/2) ) co sugeruje ograniczenie wartości przez pewien maksymalny promień.
+Dodatkowo, oba wykresy sugerują, że różne typy pokrycia terenu mają podobne rozkłady w przestrzeni Hillshade_3pm i Hillshade_9am, a krzywa widoczna na obu wykresach przypomina fragment paraboli lub bardziej ogólnie funkcji pierwiastkowej (np. y = (-x^2+a^2)^(1/2) ) co sugeruje ograniczenie wartości przez pewien maksymalny promień.
 Jej kształt wskazuje na związek między Hillshade_3pm i Hillshade_9am, który może wynikać z geometrycznych właściwości nasłonecznienia – np. sposób padania światła o różnych porach dnia na powierzchnię terenu.
 
 
